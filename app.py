@@ -29,13 +29,15 @@ class ChatbotWindow(QMainWindow):
         self.button.clicked.connect(self.send_message)
         self.show()
 
+    # Using a separate thread is important in GUI applications to prevent the interface from becoming 
+    # unresponsive while waiting for the bot's response, especially if it involves time-consuming operations like network requests.
     def send_message(self):
         user_input = self.input_field.text().strip()
         self.chat_area.append(f"<p style='color:#333333'> Me: {user_input}</p>")
         thread = Thread(target=self.get_bot_response,args=(user_input,))
         thread.start()
     def get_bot_response(self,user_input):
-        response = self.chatbot.get_response(user_input)
+        response = self.Chatbot.get_response(user_input)
         self.chat_area.append(f"<p style='color:#333333; background-color:#e9e9e9'>Bot: {response}</p>")
         self.input_field.clear()
 
